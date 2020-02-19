@@ -65,6 +65,11 @@ export class HotkeysService {
                 let target: HTMLElement = <HTMLElement>(event.target || event.srcElement); // srcElement is IE only
                 let nodeName: string = target.nodeName.toUpperCase();
 
+                // check if hotkey was triggered in a shadow DOM and get the target in the shadow DOM
+                if (target.shadowRoot) {
+                    target = <HTMLElement>(event.composedPath()[0]);
+                }
+
                 // check if the input has a mousetrap class, and skip checking preventIn if so
                 if((' ' + target.className + ' ').indexOf(' mousetrap ') > -1) {
                     shouldExecute = true;
